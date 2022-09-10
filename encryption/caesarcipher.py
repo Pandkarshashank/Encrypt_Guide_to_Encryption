@@ -5,14 +5,19 @@ import numpy as np
 from tkinter import *
 
 alphabets=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-caesar=np.roll(alphabets,3)
-key=caesar.tolist()
+
+def genkey():
+    key=int(keyy.get())
+    caesar=np.roll(alphabets,key)
+    key=caesar.tolist()
+    return key
 
 
 def remove(string):
     return string.replace(" ","")
 
 def encryption():
+    caesar=genkey()
     txt=(entry.get())
     text=remove(txt)
     cipher=''
@@ -23,11 +28,11 @@ def encryption():
     label.grid(row=3,column=0)
     label=Label(frame,text=cipher,font=(20,20) ,padx=10,pady=10)
     label.grid(row=3,column=1)
-    return cipher
+    return cipher,caesar
 
 
 def decryption():
-    text=encryption()
+    text,key=encryption()
     plaintext=''
     for i in range(len(text)):
         index=key.index(text[i])
@@ -52,6 +57,12 @@ label.grid(row=1,column=0)
 
 entry=Entry(frame,font=(20,20))
 entry.grid(row=1,column=1)
+
+label=Label(frame,text="Enter key",font=(20,20) ,padx=10,pady=10)
+label.grid(row=2,column=0)
+
+keyy=Entry(frame,font=(20,20))
+keyy.grid(row=2,column=1)
 
 button=Button(frame,text="Encrypt",command=encryption)
 button.grid(row=1,column=2)
